@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Past Papers Hub | Ultimate Edition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Dark Theme (Default) - Cinematic & Moody */
+      --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      --container-bg: rgba(255, 255, 255, 0.05);
+      --text-color: #ffffff;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-text: #1a1a1a;
+      --accent-color: #00d2ff;
+      --secondary-accent: #34e89e;
+      --subject-btn-bg: rgba(255, 255, 255, 0.1);
+      --subject-btn-text: #ffffff;
+      --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      
+      --btn-orange: #ff9f43; --btn-red: #ff6b6b; --btn-yellow: #feca57; --btn-purple: #a55eea; --btn-blue: #48dbfb;
+    }
+
+    [data-theme="light"] {
+      /* Light Theme */
+      --bg-gradient: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      --container-bg: rgba(0, 0, 0, 0.05);
+      --text-color: #1a1a1a;
+      --card-bg: #ffffff;
+      --card-text: #1a1a1a;
+      --subject-btn-bg: #ffffff;
+      --subject-btn-text: #1a1a1a;
+      --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    * { box-sizing: border-box; transition: all 0.3s ease; }
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      background: var(--bg-gradient); 
+      background-attachment: fixed; 
+      margin: 0; 
+      color: var(--text-color); 
+      min-height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+    }
+
+    /* Theme Toggle Button */
+    .theme-toggle { 
+      position: fixed; top: 20px; right: 20px; 
+      background: var(--container-bg); border: none; 
+      color: var(--text-color); padding: 12px; 
+      border-radius: 50%; cursor: pointer; 
+      font-size: 1.5rem; backdrop-filter: blur(10px); 
+      z-index: 1000; box-shadow: var(--shadow); 
+    }
+
+    .main-container { width: 95%; max-width: 1100px; padding: 30px 0; flex: 1; }
+
+    .title { 
+      text-align: center; font-size: clamp(3.5rem, 10vw, 5rem); 
+      font-weight: 800; background: linear-gradient(to right, #00d2ff, #34e89e); 
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+      margin-bottom: 30px; letter-spacing: -1.5px; 
+    }
+
+    .tabs { display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; background: var(--container-bg); padding: 8px; border-radius: 20px; }
+    .tab-btn { padding: 12px 25px; border: none; border-radius: 15px; cursor: pointer; background: transparent; color: var(--text-color); font-weight: 700; font-size: 1.1rem; flex: 1; max-width: 150px; }
+    .tab-btn.active { background: var(--accent-color); color: white; box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3); }
+
+    .search-box { width: 100%; padding: 20px 30px; border-radius: 25px; border: none; margin-bottom: 30px; font-size: 1.1rem; background: var(--card-bg); color: var(--card-text); box-shadow: var(--shadow); outline: none; }
+
+    /* Stream Buttons */
+    .stream-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 35px; }
+    .stream-btn { color: white; border: none; padding: 18px 30px; border-radius: 18px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.2); text-transform: uppercase; }
+    .btn-maths { background: var(--btn-orange); } .btn-bio { background: var(--btn-red); } .btn-comm { background: var(--btn-yellow); color: #222 !important; } .btn-art { background: var(--btn-purple); } .btn-tech { background: var(--btn-blue); color: #222 !important; }
+
+    .subject-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; background: var(--container-bg); padding: 25px; border-radius: 30px; }
+    .subject-options button { background: var(--subject-btn-bg); border: 1px solid rgba(255,255,255,0.05); padding: 18px 10px; border-radius: 15px; font-weight: 600; font-size: 1rem; cursor: pointer; color: var(--subject-btn-text); box-shadow: var(--shadow); }
+    .subject-options button:hover { background: var(--secondary-accent); color: #000; transform: translateY(-3px); }
+
+    .year-item { background: var(--card-bg); color: var(--card-text); padding: 20px 30px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; box-shadow: var(--shadow); }
+    .btn-group { display: flex; gap: 10px; }
+    .dl-btn, .pre-btn { border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: 700; color: white; text-decoration: none; font-size: 0.9rem; }
+    .dl-btn { background: #0984e3; } .pre-btn { background: #00b894; }
+    
+    .coming-soon { color: #e74c3c; font-weight: 800; font-style: italic; font-size: 0.9rem; padding: 8px 12px; border-radius: 10px; border: 1px dashed #e74c3c; }
+
+    /* Footer Styling */
+    .site-footer {
+      width: 100%;
+      background: var(--container-bg);
+      backdrop-filter: blur(15px);
+      padding: 40px 20px;
+      margin-top: 50px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .contact-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+    .contact-item {
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+      color: var(--text-color); font-weight: 600; font-size: 1.1rem;
+      padding: 12px 25px; border-radius: 15px; background: rgba(255, 255, 255, 0.05); transition: 0.3s;
+    }
+    .contact-item:hover { background: var(--accent-color); color: #000; transform: translateY(-5px); }
+    .footer-text { margin-top: 25px; font-size: 0.9rem; opacity: 0.6; }
+
+    @media (max-width: 768px) {
+      .year-item { flex-direction: column; text-align: center; gap: 15px; }
+      .stream-btn { width: 45%; padding: 15px; font-size: 0.9rem; }
+      .contact-container { flex-direction: column; gap: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()" id="theme-icon">🌙</button>
+
+<div class="main-container">
+  <h1 class="title">Past Papers Hub</h1>
+
+  <div class="tabs">
+    <button id="ol-tab" class="tab-btn active" onclick="showTab('ol')">O/L</button>
+    <button id="al-tab" class="tab-btn" onclick="showTab('al')">A/L</button>
+    <button id="grades-tab" class="tab-btn" onclick="showTab('grades')">Grades</button>
+  </div>
+
+  <input type="text" id="search" class="search-box" placeholder="🔍 Search subjects (Maths, Science, ICT...)" onkeyup="searchPapers()">
+
+  <div id="al-stream-container" class="stream-container" style="display:none;">
+    <button class="stream-btn btn-maths" onclick="filterAL('Maths')">📐 Maths</button>
+    <button class="stream-btn btn-bio" onclick="filterAL('Bio')">🔬 Bio</button>
+    <button class="stream-btn btn-comm" onclick="filterAL('Commerce')">💰 Commerce</button>
+    <button class="stream-btn btn-art" onclick="filterAL('Art')">🎨 Art</button>
+    <button class="stream-btn btn-tech" onclick="filterAL('Tech')">⚙️ Tech</button>
+  </div>
+
+  <div id="display-area">
+    <div class="subject-options" id="main-grid"></div>
+  </div>
+
+  <h3 id="selected-title" style="text-align: center; margin-top: 40px; color: var(--accent-color); font-size: 1.8rem;"></h3>
+  <div id="papers-list"></div>
+</div>
+
+<footer class="site-footer">
+  <div class="contact-container">
+    <a href="tel:+94702760447" class="contact-item">
+      <span>📞 Call: 070 276 0447</span>
+    </a>
+    <a href="https://wa.me/94702760447" target="_blank" class="contact-item" style="border-left: 4px solid #25D366;">
+      <span>💬 WhatsApp: 070 276 0447</span>
+    </a>
+  </div>
+  <p class="footer-text">© 2026 Past Papers Hub. All Rights Reserved.</p>
+</footer>
+
+<script>
+const years = [2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015];
+
+// --- PDF ලින්ක්ස් මෙතනට එක් කරන්න ---
+const pdfLinks = {
+    
+    "ol_math_2024": "papers/ol_math_2024.pdf",
+    "ol_math_2023": "papers/ol_math_2023.pdf",
+    "ol_math_2022": "papers/ol_math_2022.pdf",
+    "ol_math_2021": "papers/ol_math_2021.pdf",
+    "ol_math_2020": "papers/ol_math_2020.pdf",
+    "ol_math_2019": "papers/ol_math_2019.pdf",
+    "ol_math_2018": "papers/ol_math_2018.pdf",
+    "ol_math_2017": "papers/ol_math_2017.pdf",
+    "ol_math_2016": "papers/ol_math_2016.pdf",
+    "ol_math_2015": "papers/ol_math_2015.pdf",
+
+    "ol_sci_2025": "papers/ol_sci_2025.pdf",
+    "ol_sci_2024": "papers/ol_sci_2024.pdf",
+    "ol_sci_2023": "papers/ol_sci_2023.pdf",
+    "ol_sci_2022": "papers/ol_sci_2022.pdf",
+    "ol_sci_2021": "papers/ol_sci_2021.pdf",
+    "ol_sci_2020": "papers/ol_sci_2020.pdf",
+    "ol_sci_2019": "papers/ol_sci_2019.pdf",
+    "ol_sci_2018": "papers/ol_sci_2018.pdf",
+    "ol_sci_2017": "papers/ol_sci_2017.pdf",
+    "ol_sci_2016": "papers/ol_sci_2016.pdf",
+    "ol_sci_2015": "papers/ol_sci_2015.pdf",
+
+    "ol_eng_2025": "papers/ol_eng_2025.pdf",
+    "ol_eng_2024": "papers/ol_eng_2024.pdf",  
+    "ol_eng_2023": "papers/ol_eng_2023.pdf",  
+    "ol_eng_2022": "papers/ol_eng_2022.pdf",  
+    "ol_eng_2021": "papers/ol_eng_2021.pdf",      
+    "ol_eng_2019": "papers/ol_eng_2019.pdf",  
+    "ol_eng_2018": "papers/ol_eng_2018.pdf",  
+    "ol_eng_2017": "papers/ol_eng_2017.pdf",  
+    "ol_eng_2016": "papers/ol_eng_2016.pdf",  
+    "ol_eng_2015": "papers/ol_eng_2015.pdf",  
+
+
+    
+    "g10_math_2023": "papers/g10-math-2023.pdf"
+};
+
+const subjectsData = {
+    ol: [
+        { id: 'ol_math', name: 'Mathematics' }, { id: 'ol_sci', name: 'Science' },
+        { id: 'ol_eng', name: 'English' }, { id: 'ol_sin', name: 'Sinhala' },
+        { id: 'ol_hist', name: 'History' }, { id: 'ol_ict', name: 'ICT' },
+        { id: 'ol_bud', name: 'Buddhism' }, { id: 'ol_civic', name: 'Civics' },
+        { id: 'ol_geo', name: 'Geography' }, { id: 'ol_comm', name: 'Commerce' },
+        { id: 'ol_health', name: 'Health' }, { id: 'ol_art', name: 'Art' },
+        { id: 'ol_music', name: 'Music' }, { id: 'ol_home', name: 'Home Eco' },
+        { id: 'ol_drama', name: 'Drama' }, { id: 'ol_dance', name: 'Dancing' }
+    ],
+    al: [
+        { id: 'al_comb', name: 'Combined Maths', stream: 'Maths' },
+        { id: 'al_phys_m', name: 'Physics', stream: 'Maths' },
+        { id: 'al_chem_m', name: 'Chemistry', stream: 'Maths' },
+        { id: 'al_ict_m', name: 'ICT', stream: 'Maths' },
+        { id: 'al_bio', name: 'Biology', stream: 'Bio' },
+        { id: 'al_phys_b', name: 'Physics', stream: 'Bio' },
+        { id: 'al_chem_b', name: 'Chemistry', stream: 'Bio' },
+        { id: 'al_agri_b', name: 'Agri Science', stream: 'Bio' },
+        { id: 'al_acc', name: 'Accounting', stream: 'Commerce' },
+        { id: 'al_bs', name: 'Business Studies', stream: 'Commerce' },
+        { id: 'al_econ_c', name: 'Economics', stream: 'Commerce' },
+        { id: 'al_ict_c', name: 'ICT', stream: 'Commerce' },
+        { id: 'al_sin_a', name: 'Sinhala', stream: 'Art' },
+        { id: 'al_pol', name: 'Political Science', stream: 'Art' },
+        { id: 'al_logic', name: 'Logic', stream: 'Art' },
+        { id: 'al_hist_a', name: 'History', stream: 'Art' },
+        { id: 'al_geo_a', name: 'Geography', stream: 'Art' },
+        { id: 'al_media', name: 'Media Studies', stream: 'Art' },
+        { id: 'al_bud_a', name: 'Buddhist Culture', stream: 'Art' },
+        { id: 'al_sft', name: 'SFT', stream: 'Tech' },
+        { id: 'al_et', name: 'Engineering Tech', stream: 'Tech' },
+        { id: 'al_bst', name: 'Bio Systems Tech', stream: 'Tech' },
+        { id: 'al_ict_t', name: 'ICT', stream: 'Tech' }
+    ],
+    primary: [
+        { id: 'p_math', name: 'Mathematics' }, { id: 'p_sin', name: 'Sinhala' },
+        { id: 'p_eng', name: 'English' }, { id: 'p_env', name: 'Environment' },
+        { id: 'p_bud', name: 'Buddhism' }, { id: 'p_tamil', name: 'Tamil' }
+    ]
+};
+
+function toggleTheme() {
+    const body = document.body;
+    const icon = document.getElementById('theme-icon');
+    if (body.getAttribute('data-theme') === 'light') {
+        body.removeAttribute('data-theme');
+        icon.innerText = "🌙";
+    } else {
+        body.setAttribute('data-theme', 'light');
+        icon.innerText = "☀️";
+    }
+}
+
+function showTab(type) {
+    const grid = document.getElementById('main-grid');
+    const alStream = document.getElementById('al-stream-container');
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(type + '-tab').classList.add('active');
+    document.getElementById('papers-list').innerHTML = "";
+    document.getElementById('selected-title').innerText = "";
+    alStream.style.display = (type === 'al') ? 'flex' : 'none';
+
+    if (type === 'ol') renderButtons(subjectsData.ol);
+    else if (type === 'grades') {
+        let h = "";
+        for (let i = 11; i >= 1; i--) h += `<button onclick="renderGradeSubjects(${i})">Grade ${i}</button>`;
+        grid.innerHTML = h;
+    } else {
+        grid.innerHTML = "<p style='width:100%; text-align:center;'>Select an A/L Stream Above</p>";
+    }
+}
+
+function filterAL(stream) {
+    const list = subjectsData.al.filter(s => s.stream === stream);
+    renderButtons(list, `A/L ${stream}`);
+}
+
+function renderGradeSubjects(g) {
+    const list = (g >= 6) ? subjectsData.ol : subjectsData.primary;
+    const grid = document.getElementById('main-grid');
+    grid.innerHTML = list.map(s => 
+        `<button onclick="renderPapers('g${g}_${s.id}', 'Grade ${g} - ${s.name}')">${s.name}</button>`
+    ).join('');
+}
+
+function renderButtons(list, pref = "") {
+    const grid = document.getElementById('main-grid');
+    grid.innerHTML = list.map(s => `<button onclick="renderPapers('${s.id}', '${pref ? pref + ' - ' : ''}${s.name}')">${s.name}</button>`).join('');
+}
+
+function renderPapers(id, name) {
+    document.getElementById('selected-title').innerText = `📂 ${name}`;
+    const list = document.getElementById('papers-list');
+    list.innerHTML = years.map(y => {
+        const key = `${id}_${y}`;
+        const link = pdfLinks[key] || "#"; 
+        let actionArea = (link === "#") ? 
+            `<span class="coming-soon">PAPER COMING SOON</span>` : 
+            `<div class="btn-group">
+                <button class="pre-btn" onclick="window.open('${link}', '_blank')">Preview</button>
+                <a href="${link}" target="_blank" download class="dl-btn">Download</a>
+            </div>`;
+        return `<div class="year-item"><span>📄 <strong>${y}</strong> - ${name}</span>${actionArea}</div>`;
+    }).join('');
+    window.scrollTo({ top: document.getElementById('selected-title').offsetTop - 60, behavior: 'smooth' });
+}
+
+function searchPapers() {
+    let input = document.getElementById('search').value.toLowerCase();
+    document.querySelectorAll('.year-item, .subject-options button').forEach(item => {
+        item.style.display = item.innerText.toLowerCase().includes(input) ? "" : "none";
+    });
+}
+window.onload = () => showTab('ol');
+</script>
+</body>
+</html>
