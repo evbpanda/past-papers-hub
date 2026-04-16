@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Dark Theme (Default) */
+      /* Dark Theme (Default) - Cinematic & Moody */
       --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
       --container-bg: rgba(255, 255, 255, 0.05);
       --text-color: #ffffff;
@@ -23,6 +23,7 @@
     }
 
     [data-theme="light"] {
+      /* Light Theme */
       --bg-gradient: linear-gradient(135deg, #f5f7fa, #c3cfe2);
       --container-bg: rgba(0, 0, 0, 0.05);
       --text-color: #1a1a1a;
@@ -46,6 +47,7 @@
       align-items: center; 
     }
 
+    /* Theme Toggle Button */
     .theme-toggle { 
       position: fixed; top: 20px; right: 20px; 
       background: var(--container-bg); border: none; 
@@ -58,7 +60,7 @@
     .main-container { width: 95%; max-width: 1100px; padding: 30px 0; flex: 1; }
 
     .title { 
-      text-align: center; font-size: clamp(2.5rem, 8vw, 5rem); 
+      text-align: center; font-size: clamp(3.5rem, 10vw, 5rem); 
       font-weight: 800; background: linear-gradient(to right, #00d2ff, #34e89e); 
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
       margin-bottom: 30px; letter-spacing: -1.5px; 
@@ -70,6 +72,7 @@
 
     .search-box { width: 100%; padding: 20px 30px; border-radius: 25px; border: none; margin-bottom: 30px; font-size: 1.1rem; background: var(--card-bg); color: var(--card-text); box-shadow: var(--shadow); outline: none; }
 
+    /* Stream Buttons */
     .stream-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 35px; }
     .stream-btn { color: white; border: none; padding: 18px 30px; border-radius: 18px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.2); text-transform: uppercase; }
     .btn-maths { background: var(--btn-orange); } .btn-bio { background: var(--btn-red); } .btn-comm { background: var(--btn-yellow); color: #222 !important; } .btn-art { background: var(--btn-purple); } .btn-tech { background: var(--btn-blue); color: #222 !important; }
@@ -85,23 +88,28 @@
     
     .coming-soon { color: #e74c3c; font-weight: 800; font-style: italic; font-size: 0.9rem; padding: 8px 12px; border-radius: 10px; border: 1px dashed #e74c3c; }
 
-    .site-footer { width: 100%; background: var(--container-bg); backdrop-filter: blur(15px); padding: 40px 20px; margin-top: 50px; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+    /* Footer Styling */
+    .site-footer {
+      width: 100%;
+      background: var(--container-bg);
+      backdrop-filter: blur(15px);
+      padding: 40px 20px;
+      margin-top: 50px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
     .contact-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-    .contact-item { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-color); font-weight: 600; font-size: 1.1rem; padding: 12px 25px; border-radius: 15px; background: rgba(255, 255, 255, 0.05); transition: 0.3s; }
+    .contact-item {
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+      color: var(--text-color); font-weight: 600; font-size: 1.1rem;
+      padding: 12px 25px; border-radius: 15px; background: rgba(255, 255, 255, 0.05); transition: 0.3s;
+    }
+    .contact-item:hover { background: var(--accent-color); color: #000; transform: translateY(-5px); }
     .footer-text { margin-top: 25px; font-size: 0.9rem; opacity: 0.6; }
 
-    /* Mobile Responsive Logic */
     @media (max-width: 768px) {
-      .main-container { width: 92%; }
-      .title { font-size: 2.5rem; }
-      .tabs { gap: 6px; padding: 5px; }
-      .tab-btn { padding: 10px 5px; font-size: 0.9rem; }
-      .stream-btn { width: 46%; padding: 12px 5px; font-size: 0.85rem; }
-      .subject-options { grid-template-columns: repeat(2, 1fr); padding: 15px; gap: 10px; }
-      .subject-options button { padding: 12px 5px; font-size: 0.85rem; }
-      .year-item { flex-direction: column; text-align: center; gap: 15px; padding: 15px; }
-      .btn-group { width: 100%; }
-      .dl-btn, .pre-btn { flex: 1; text-align: center; padding: 10px 5px; }
+      .year-item { flex-direction: column; text-align: center; gap: 15px; }
+      .stream-btn { width: 45%; padding: 15px; font-size: 0.9rem; }
       .contact-container { flex-direction: column; gap: 15px; }
     }
   </style>
@@ -119,7 +127,7 @@
     <button id="grades-tab" class="tab-btn" onclick="showTab('grades')">Grades</button>
   </div>
 
-  <input type="text" id="search" class="search-box" placeholder="🔍 Search subjects..." onkeyup="searchPapers()">
+  <input type="text" id="search" class="search-box" placeholder="🔍 Search subjects (Maths, Science, ICT...)" onkeyup="searchPapers()">
 
   <div id="al-stream-container" class="stream-container" style="display:none;">
     <button class="stream-btn btn-maths" onclick="filterAL('Maths')">📐 Maths</button>
@@ -139,8 +147,12 @@
 
 <footer class="site-footer">
   <div class="contact-container">
-    <a href="tel:+94702760447" class="contact-item"><span>📞 Call: 070 276 0447</span></a>
-    <a href="https://wa.me/94702760447" target="_blank" class="contact-item" style="border-left: 4px solid #25D366;"><span>💬 WhatsApp: 070 276 0447</span></a>
+    <a href="tel:+94702760447" class="contact-item">
+      <span>📞 Call: 070 276 0447</span>
+    </a>
+    <a href="https://wa.me/94702760447" target="_blank" class="contact-item" style="border-left: 4px solid #25D366;">
+      <span>💬 WhatsApp: 070 276 0447</span>
+    </a>
   </div>
   <p class="footer-text">© 2026 Past Papers Hub. All Rights Reserved.</p>
 </footer>
@@ -148,7 +160,9 @@
 <script>
 const years = [2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015];
 
+// --- PDF ලින්ක්ස් මෙතනට එක් කරන්න ---
 const pdfLinks = {
+    
     "ol_math_2024": "papers/ol_math_2024.pdf",
     "ol_math_2023": "papers/ol_math_2023.pdf",
     "ol_math_2022": "papers/ol_math_2022.pdf",
@@ -159,6 +173,7 @@ const pdfLinks = {
     "ol_math_2017": "papers/ol_math_2017.pdf",
     "ol_math_2016": "papers/ol_math_2016.pdf",
     "ol_math_2015": "papers/ol_math_2015.pdf",
+
     "ol_sci_2025": "papers/ol_sci_2025.pdf",
     "ol_sci_2024": "papers/ol_sci_2024.pdf",
     "ol_sci_2023": "papers/ol_sci_2023.pdf",
@@ -170,6 +185,7 @@ const pdfLinks = {
     "ol_sci_2017": "papers/ol_sci_2017.pdf",
     "ol_sci_2016": "papers/ol_sci_2016.pdf",
     "ol_sci_2015": "papers/ol_sci_2015.pdf",
+
     "ol_eng_2025": "papers/ol_eng_2025.pdf",
     "ol_eng_2024": "papers/ol_eng_2024.pdf",  
     "ol_eng_2023": "papers/ol_eng_2023.pdf",  
@@ -180,6 +196,9 @@ const pdfLinks = {
     "ol_eng_2017": "papers/ol_eng_2017.pdf",  
     "ol_eng_2016": "papers/ol_eng_2016.pdf",  
     "ol_eng_2015": "papers/ol_eng_2015.pdf",  
+
+
+    
     "g10_math_2023": "papers/g10-math-2023.pdf"
 };
 
